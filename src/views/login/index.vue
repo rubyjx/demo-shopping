@@ -1,29 +1,32 @@
 <template>
   <div class="login">
-    <Form :model="form" class="login-form">
-      <FormItem>
-        <Divider type="vertical" /> <span class="login-title">登录</span>
-      </FormItem>
-      <FormItem>
-        <Input
-          prefix="ios-person-outline"
-          type="text"
-          placeholder="请输入账号"
-          v-model="form.username"
-        />
-      </FormItem>
-      <FormItem>
-        <Input
-          prefix="ios-lock-outline"
-          type="password"
-          placeholder="请输入密码"
-          v-model="form.password"
-        />
-      </FormItem>
-      <FormItem>
-        <Button class="login-button" @click="login">登录</Button>
-      </FormItem>
-    </Form>
+    <div>
+      <div class="title">xxx商城</div>
+      <Form :model="form" class="login-form">
+        <FormItem>
+          <Divider type="vertical" /> <span class="login-title">登录</span>
+        </FormItem>
+        <FormItem>
+          <Input
+            prefix="ios-person-outline"
+            type="text"
+            placeholder="请输入账号"
+            v-model="form.username"
+          />
+        </FormItem>
+        <FormItem>
+          <Input
+            prefix="ios-lock-outline"
+            type="password"
+            placeholder="请输入密码"
+            v-model="form.password"
+          />
+        </FormItem>
+        <FormItem>
+          <Button class="login-button" @click="login">登录</Button>
+        </FormItem>
+      </Form>
+    </div>
   </div>
 </template>
 
@@ -62,23 +65,31 @@ export default {
 .login {
   height: 100vh;
   width: 100%;
-  padding: 300px;
-  background-color: antiquewhite;
+  padding: 300px 150px 300px 800px;
+  background-color: rgb(241, 243, 240);
   display: flex;
   justify-content: center;
   align-items: center;
+
+  .title {
+    width: 100%;
+    text-align: center;
+    margin-bottom: 50px;
+    font-size: 16px;
+  }
 }
 
 .login-form {
-  padding: 20px 100px;
+  padding: 20px 20px;
   width: 500px;
   height: auto;
-  background: rgba(22, 98, 183, 0.8);
+  background: rgb(255, 255, 255);
+
   border-radius: 16px;
 
   .login-title {
     font-size: 14px;
-    color: white;
+    color: black;
   }
 
   .login-button {
