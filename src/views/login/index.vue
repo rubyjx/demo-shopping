@@ -83,8 +83,7 @@ export default {
   padding: 20px 20px;
   width: 500px;
   height: auto;
-  background: rgb(255, 255, 255);
-
+  background: cornflowerblue;
   border-radius: 16px;
 
   .login-title {
