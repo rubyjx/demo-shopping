@@ -1,51 +1,49 @@
 <template>
   <div class="login">
+    <van-nav-bar title="会员登录" left-arrow @click-left="$router.go(-1)" />
+
     <div class="container">
       <div class="title">
         <h3>手机号登录</h3>
         <p>未注册的手机号登录后将自动注册</p>
       </div>
 
-      <Form class="form">
-        <FormItem class="form-item">
-          <Input
+      <div class="form">
+        <div class="form-item">
+          <input
             v-model="mobile"
-            maxlength="15"
             class="inp"
+            maxlength="11"
             placeholder="请输入手机号码"
             type="text"
-            :border="false"
           />
-        </FormItem>
-        <FormItem class="form-item">
-          <Input
+        </div>
+        <div class="form-item">
+          <input
             v-model="picCode"
             class="inp"
             maxlength="5"
             placeholder="请输入图形验证码"
             type="text"
-            :border="false"
           />
           <img v-if="picUrl" :src="picUrl" @click="getPicCode" alt="" />
-        </FormItem>
-        <FormItem class="form-item">
-          <Input
+        </div>
+        <div class="form-item">
+          <input
             v-model="msgCode"
             class="inp"
             placeholder="请输入短信验证码"
             type="text"
-            :border="false"
           />
-          <Button @click="getCode">
+          <button @click="getCode">
             {{
               second === totalSecond ? "获取验证码" : second + "秒后重新发送"
             }}
-          </Button>
-        </FormItem>
-        <FormItem class="form-item">
-          <div @click="login" class="login-btn">登录</div>
-        </FormItem>
-      </Form>
+          </button>
+        </div>
+      </div>
+
+      <div @click="login" class="login-btn">登录</div>
     </div>
   </div>
 </template>
@@ -81,11 +79,11 @@ export default {
     },
     validFn() {
       if (!/^1[3-9]\d{9}$/.test(this.mobile)) {
-        this.$Message.warning("请输入正确的手机号");
+        this.$toast("请输入正确的手机号");
         return false;
       }
       if (!/^\w{4}$/.test(this.picCode)) {
-        this.$Message.warning("请输入正确的图形验证码");
+        this.$toast("请输入正确的图形验证码");
         return false;
       }
       return true;
@@ -99,7 +97,7 @@ export default {
 
       if (!this.timer && this.second === this.totalSecond) {
         await getMsgCode(this.picCode, this.picKey, this.mobile);
-        this.$Message.info("短信发送成功，注意查收");
+        this.$toast("短信发送成功，注意查收");
 
         // 开启倒计时
         this.timer = setInterval(() => {
@@ -120,13 +118,13 @@ export default {
       }
 
       if (!/^\d{6}$/.test(this.msgCode)) {
-        this.$Message.info("请输入正确的手机验证码");
+        this.$toast("请输入正确的手机验证码");
         return;
       }
 
       const res = await codeLogin(this.mobile, this.msgCode);
       this.$store.commit("user/setUserInfo", res.data);
-      this.$Message.info("登录成功");
+      this.$toast("登录成功");
       const url = this.$route.query.backUrl || "/";
       this.$router.replace(url);
     },
@@ -139,7 +137,7 @@ export default {
 
 <style lang="less" scoped>
 .container {
-  padding: 200px 450px;
+  padding: 49px 29px;
 
   .title {
     margin-bottom: 20px;
