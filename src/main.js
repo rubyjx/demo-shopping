@@ -3,6 +3,7 @@ import App from "./App.vue";
 import router from "./router";
 import store from "./store";
 import "@/utils/view-design";
+import "@/utils/vant";
 
 import "view-design/dist/styles/iview.css";
 Vue.config.productionTip = false;

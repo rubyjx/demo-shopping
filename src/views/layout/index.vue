@@ -1,23 +1,16 @@
 <template>
   <div class="home">
-    <!-- 导航条 -->
-    <h2 class="title">大麦商城</h2>
-    <!-- 搜索框 -->
-    <div class="search">
-      <Input
-        type="text"
-        class="search-input"
-        placeholder="请在此输入搜索关键词"
-        search
-        enter-button
-      />
-      <div class="cart">
-        <Icon type="ios-cart-outline" size="22" class="cart-icon" /><span
-          >我的购物车</span
-        >
-      </div>
-    </div>
-    <div class="category"></div>
+    <router-view></router-view>
+
+    <van-tabbar route active-color="#ee0a24" inactive-color="#000">
+      <van-tabbar-item
+        v-for="(item, index) in tabbars"
+        :key="index"
+        :to="item.path"
+        :icon="item.icon"
+        >{{ item.title }}</van-tabbar-item
+      >
+    </van-tabbar>
   </div>
 </template>
 
@@ -26,7 +19,30 @@ export default {
   name: "LayoutIndex",
 
   data() {
-    return {};
+    return {
+      tabbars: [
+        {
+          path: "/home",
+          title: "首页",
+          icon: "home-o",
+        },
+        {
+          path: "/category",
+          title: "分类页",
+          icon: "apps-o",
+        },
+        {
+          path: "/cart",
+          title: "购物车",
+          icon: "shopping-cart-o",
+        },
+        {
+          path: "/user",
+          title: "我的",
+          icon: "user-o",
+        },
+      ],
+    };
   },
 };
 </script>

@@ -1,4 +1,5 @@
 import axios from "axios";
+import { Toast } from "vant";
 
 const instance = axios.create({
   // baseURL: "http://127.0.0.1:4523/m1/4973055-4631411-default",
@@ -10,6 +11,11 @@ const instance = axios.create({
 instance.interceptors.request.use(
   function (config) {
     // 在发送请求之前做些什么
+    Toast.loading({
+      message: "加载中...",
+      forbidClick: true,
+      loadingType: "spinner",
+    });
     return config;
   },
   function (error) {
@@ -25,15 +31,16 @@ instance.interceptors.response.use(
     // 对响应数据做点什么
     let res = response.data;
     if (res.status !== 200) {
-      this.$Message.error(res.message);
+      Toast(res.message);
       return Promise.reject(res.message);
     }
+    Toast.clear();
     return res;
   },
   function (error) {
     // 超出 2xx 范围的状态码都会触发该函数。
     // 对响应错误做点什么
-    this.$Message.error("net error");
+    Toast("net error");
     return Promise.reject(error);
   }
 );

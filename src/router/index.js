@@ -7,6 +7,8 @@ import Pay from "@/views/pay";
 import MyOrder from "@/views/myorder";
 import ProDetail from "@/views/prodetail";
 import store from "@/store";
+import Home from "@/views/layout/home";
+import ListIndex from "@/views/search/list";
 
 Vue.use(VueRouter);
 
@@ -14,10 +16,6 @@ const routes = [
   {
     path: "/login",
     component: Login,
-  },
-  {
-    path: "/",
-    redirect: "/layout",
   },
   {
     path: "/layout",
@@ -39,6 +37,21 @@ const routes = [
     path: "/prodetail/:id",
     component: ProDetail,
   },
+  {
+    path: "/searchlist",
+    component: ListIndex,
+  },
+  {
+    path: "/",
+    component: Layout,
+    redirect: "/home",
+    children: [
+      { path: "/home", component: Home },
+      // { path: "/category", component: Category },
+      // { path: "/cart", component: Cart },
+      // { path: "/user", component: User },
+    ],
+  },
 ];
 
 const router = new VueRouter({
@@ -46,22 +59,19 @@ const router = new VueRouter({
   routes,
 });
 
+const authUrls = ["/pay", "/myorder"];
+
 router.beforeEach((to, from, next) => {
-  if (to.matched.some((record) => record.meta.requiresAuth)) {
-    // 判断用户是否已登录
-    if (!store.state.isAuthenticated) {
-      // 未登录，重定向到登录页面
-      next({
-        path: "/login",
-        query: { redirect: to.fullPath }, // 登录后重定向回到原来想访问的页面
-      });
-    } else {
-      // 已登录，允许访问
-      next();
-    }
-  } else {
-    // 该路由不需要身份验证，直接访问
+  if (!authUrls.includes(to.path)) {
+    // 不需要鉴权登录页面
     next();
+    return;
+  }
+  const userInfo = store.state.getUserInfo();
+  if (userInfo) {
+    next();
+  } else {
+    next("/login?backUrl=" + to.fullPath);
   }
 });
 
