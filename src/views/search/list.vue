@@ -1,11 +1,22 @@
 <template>
   <div class="goods">
     <van-nav-bar left-arrow title="商品列表"></van-nav-bar>
-    <van-search v-model="searchKey" placeholder="请输入搜索关键词" show-action>
+    <van-search
+      v-model="searchKey"
+      placeholder="请输入搜索关键词"
+      show-action
+      readonly
+      @click="route.push('/search')"
+    >
       <template #action>
         <van-icon name="search" @click="searchData()"></van-icon>
       </template>
     </van-search>
+    <van-row class="search-sort">
+      <van-col span="8">综合</van-col>
+      <van-col span="8" @click="sortData('sales')">销量</van-col>
+      <van-col span="8" @click="sortData('price')">价格</van-col>
+    </van-row>
     <div class="good-list">
       <van-list
         v-model="loading"
@@ -36,19 +47,28 @@ export default {
       page: 1,
       list: [],
       refreshing: false,
+      sortType: "all",
+      sortDirection: true,
     };
   },
   async created() {
     this.searchKey = this.$route.query.search;
     this.list = [];
     this.page = 1;
+    this.sortType = "all";
+    this.sortDirection = true;
     this.loadData();
   },
   methods: {
     async loadData() {
       this.loading = true;
       // await codeLogin(this.mobile, this.msgCode);
-      const goods = await getGoods(this.searchKey, this.page);
+      const goods = await getGoods(
+        this.searchKey,
+        this.page,
+        this.sortType,
+        this.sortDirection ? 0 : 1
+      );
       for (const item of goods.data.list.data) {
         this.list.push(item);
       }
@@ -58,6 +78,15 @@ export default {
         this.finished = false;
       }
       this.loading = false;
+    },
+
+    sortData(sortType) {
+      this.sortType = sortType;
+      this.sortDirection = !this.sortDirection;
+      this.list = [];
+      this.page = 1;
+      this.finished = false;
+      this.loadData();
     },
     searchData() {
       this.loadData();
@@ -77,4 +106,17 @@ export default {
 };
 </script>
 
-<style></style>
+<style scoped lang="less">
+.search-sort {
+  display: flex;
+  font-size: 14px;
+  font-weight: 500;
+  height: 36px;
+  line-height: 36px;
+
+  .van-col {
+    text-align: center;
+    flex: 1;
+  }
+}
+</style>

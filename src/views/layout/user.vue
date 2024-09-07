@@ -1,0 +1,11 @@
+<template>
+  <div class="user">我的页面</div>
+</template>
+
+<script>
+export default {
+  name: "UserIndex",
+};
+</script>
+
+<style></style>

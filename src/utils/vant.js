@@ -18,6 +18,10 @@ import {
   PullRefresh,
 } from "vant";
 
+import { Col, Row } from "vant";
+
+Vue.use(Col);
+Vue.use(Row);
 Vue.use(PullRefresh);
 Vue.use(Cell);
 Vue.use(CellGroup);
