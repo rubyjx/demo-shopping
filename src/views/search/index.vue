@@ -47,6 +47,11 @@ export default {
     },
     searchData(key) {
       // console.log('进行了搜索，搜索历史要更新', key)
+      if (!key) {
+        // 跳转到搜索列表页
+        this.$router.push(`/searchlist?search=${key}`);
+        return;
+      }
       const index = this.history.indexOf(key);
       if (index !== -1) {
         this.history.splice(index, 1);

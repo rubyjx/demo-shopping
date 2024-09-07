@@ -17,3 +17,21 @@ export const getGoods = (
     },
   });
 };
+
+export const getGoodsDetail = (goodsId) => {
+  return request.get("/goods/detail", {
+    params: {
+      goodsId: goodsId,
+    },
+  });
+};
+
+export const getComments = (goodsId, page) => {
+  return request.get("/comment/list", {
+    params: {
+      scoreType: -1,
+      goodsId: goodsId,
+      page: page,
+    },
+  });
+};

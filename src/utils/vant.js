@@ -19,7 +19,13 @@ import {
 } from "vant";
 
 import { Col, Row } from "vant";
+import { Rate } from "vant";
+import { GoodsAction, GoodsActionIcon, GoodsActionButton } from "vant";
 
+Vue.use(GoodsAction);
+Vue.use(GoodsActionButton);
+Vue.use(GoodsActionIcon);
+Vue.use(Rate);
 Vue.use(Col);
 Vue.use(Row);
 Vue.use(PullRefresh);

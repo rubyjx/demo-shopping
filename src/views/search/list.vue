@@ -1,15 +1,20 @@
 <template>
   <div class="goods">
-    <van-nav-bar left-arrow title="商品列表"></van-nav-bar>
+    <van-nav-bar
+      left-arrow
+      title="商品列表"
+      @click-left="$router.go(-1)"
+    ></van-nav-bar>
     <van-search
       v-model="searchKey"
       placeholder="请输入搜索关键词"
       show-action
       readonly
-      @click="route.push('/search')"
+      @click="$router.push('/search')"
+      class="search-box"
     >
       <template #action>
-        <van-icon name="search" @click="searchData()"></van-icon>
+        <van-icon name="apps-o" class="tool" @click="searchData()"></van-icon>
       </template>
     </van-search>
     <van-row class="search-sort">
@@ -23,7 +28,6 @@
         :finished="finished"
         finished-text="我是有底线的"
         @load="onLoadData"
-        :offset="10"
       >
         <van-cell v-for="item in list" :key="item.id">
           <goods-item :item="item"></goods-item>
@@ -49,6 +53,7 @@ export default {
       refreshing: false,
       sortType: "all",
       sortDirection: true,
+      categoryId: this.$route.query.categoryId,
     };
   },
   async created() {
@@ -61,18 +66,18 @@ export default {
   },
   methods: {
     async loadData() {
-      this.loading = true;
-      // await codeLogin(this.mobile, this.msgCode);
+      // this.loading = true;
       const goods = await getGoods(
         this.searchKey,
         this.page,
         this.sortType,
-        this.sortDirection ? 0 : 1
+        this.sortDirection ? 0 : 1,
+        this.categoryId
       );
       for (const item of goods.data.list.data) {
         this.list.push(item);
       }
-      if (goods.data.list.current_page === goods.data.list.last_page) {
+      if (goods.data.list.current_page >= goods.data.list.last_page) {
         this.finished = true;
       } else {
         this.finished = false;
@@ -118,5 +123,16 @@ export default {
     text-align: center;
     flex: 1;
   }
+}
+
+.search-box {
+  .tool {
+    font-size: 24px;
+    height: 40px;
+    line-height: 40px;
+  }
+}
+/deep/ .van-nav-bar .van-icon {
+  color: #333;
 }
 </style>
